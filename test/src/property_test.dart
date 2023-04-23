@@ -1,15 +1,7 @@
 import 'package:test/test.dart';
 import 'package:prop_commands/prop_commands.dart';
 
-class TestListener {
-  TestListener();
-
-  bool wasCalled = false;
-
-  void notifyListeners() {
-    wasCalled = true;
-  }
-}
+import '../test_listener.dart';
 
 void main() {
   group('Property<String>', () {
