@@ -13,8 +13,8 @@ void main() {
       actionListener = TestListener();
       notifyListener = TestListener();
       sut = Command(
-        action: actionListener.notifyListeners,
-        notifyListeners: notifyListener.notifyListeners,
+        action: actionListener.invoke,
+        notifyListeners: notifyListener.invoke,
       );
     });
 
@@ -27,9 +27,9 @@ void main() {
     });
     test('''if according to the set conditions, the command cannot be executed,
     then when the command is called,
-     an error of the State Error type will be thrown''', () {
+     an error of the StateError type will be thrown''', () {
       sut = Command(
-        action: actionListener.notifyListeners,
+        action: actionListener.invoke,
         canAction: () => false,
       );
       expect(() => sut(), throwsStateError);

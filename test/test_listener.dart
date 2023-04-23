@@ -3,7 +3,7 @@ class TestListener {
 
   bool wasCalled = false;
 
-  void notifyListeners() {
+  void invoke() {
     wasCalled = true;
   }
 }
