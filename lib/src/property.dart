@@ -1,10 +1,13 @@
-/// [Property<T>] class for creating properties in objects
+/// [Property<T>] is a class for creating properties in objects
 /// that extend [ChangeNotifier].
 /// [initialValue] - the original value of the property,
-/// [notifyListeners] - reference to the method
+/// [notifyListeners] - a reference to the method
 /// of the same name in [ChangeNotifier],
-/// [verificationRules] - reference to the verification rules
-/// for the value of this property
+/// [verificationRules] - a reference to the verification rules
+/// for the value of this property. The rules are a map, where the key
+/// is a string value containing information about the error, and
+/// the value is a method that checks the value of the property and
+/// returns true if the value of the property causes this error.
 class Property<T> {
   Property({
     required T initialValue,
