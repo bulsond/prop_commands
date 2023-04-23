@@ -24,7 +24,7 @@ void main() {
       verificationRules = collectRules();
       sut = Property(
         initialValue: valueBeforeChange,
-        notifyListeners: listener.invoke,
+        notifyListeners: listener.invokeSync,
         verificationRules: verificationRules,
       );
     });
@@ -52,7 +52,7 @@ void main() {
         equal "the value cannot be an empty string"''', () {
       sut = Property(
         initialValue: '',
-        notifyListeners: listener.invoke,
+        notifyListeners: listener.invokeSync,
         verificationRules: verificationRules,
       );
       expect(sut.hasErrors, true);
