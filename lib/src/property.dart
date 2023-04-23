@@ -1,7 +1,10 @@
-/// [Property]
-/// [initialValue] - the original value of the property
-/// [notifyListeners] - reference to the method of the same name in [ChangeNotifier]
-/// [verificationRules] - reference to the verification rules the value of this property
+/// [Property<T>] class for creating properties in objects
+/// that extend [ChangeNotifier].
+/// [initialValue] - the original value of the property,
+/// [notifyListeners] - reference to the method
+/// of the same name in [ChangeNotifier],
+/// [verificationRules] - reference to the verification rules
+/// for the value of this property
 class Property<T> {
   Property({
     required T initialValue,
