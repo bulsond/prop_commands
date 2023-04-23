@@ -18,6 +18,8 @@ class Command {
   final bool Function() _canAction;
   final void Function() _notifyListeners;
 
+  /// Calling the method defined as [action].
+  /// The call may result in an error of the type [StateError].
   void execute() {
     if (_canAction() == false) {
       throw StateError('''The constraints in the _canAction() method
@@ -27,7 +29,11 @@ class Command {
     _notifyListeners();
   }
 
+  /// An additional way to call the method defined as [action].
   void call() => execute();
 
+  /// Invoking the validation method to determine
+  /// whether a command can be called.
+  /// Returns true if the command can be called.
   bool canExecute() => _canAction();
 }

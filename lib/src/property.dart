@@ -25,12 +25,19 @@ class Property<T> {
   final Map<String, bool Function(T value)> _verificationRules;
 
   final List<String> _errors = [];
+
+  /// A list of error messages collected after checking the property value.
   List<String> get errors => List.unmodifiable(_errors);
+
+  /// Returns true if the property value is incorrect.
   bool get hasErrors =>
       _verificationRules.entries.any((rule) => rule.value(_value));
 
   late T _value;
+
+  /// The property value
   T get value => _value;
+
   set value(T value) {
     if (_value == value) {
       return;
