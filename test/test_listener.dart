@@ -13,6 +13,12 @@ class TestListener {
     wasCalled = true;
   }
 
+  Future<void> invokeWith(String value) async {
+    await Future.delayed(const Duration(milliseconds: 100));
+    param = value;
+    wasCalled = true;
+  }
+
   Future<void> invoke() async {
     await Future.delayed(const Duration(milliseconds: 100));
     wasCalled = true;
