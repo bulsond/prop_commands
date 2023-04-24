@@ -2,8 +2,14 @@ class TestListener {
   TestListener();
 
   bool wasCalled = false;
+  String param = '';
 
   void invokeSync() {
+    wasCalled = true;
+  }
+
+  void invokeSyncWith(String value) {
+    param = value;
     wasCalled = true;
   }
 
