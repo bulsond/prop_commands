@@ -1,10 +1,11 @@
-// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables, sort_child_properties_last
-
 import 'package:flutter/material.dart';
 
 import '../first/first_page.dart';
 import '../first/first_page_inherited_notifier.dart';
 import '../first/first_page_notifier.dart';
+import '../second/second_page.dart';
+import '../second/second_page_inherited_notifier.dart';
+import '../second/second_page_notifier.dart';
 
 class RootPage extends StatefulWidget {
   const RootPage({super.key});
@@ -23,11 +24,14 @@ class _RootPageState extends State<RootPage> {
       case 0:
         page = FirstPageInheritedNotifier(
           notifier: FirstPageNotifier(),
-          child: FirstPage(),
+          child: const FirstPage(),
         );
         break;
       case 1:
-        page = Placeholder();
+        page = SecondPageInheritedNotifier(
+          notifier: SecondPageNotifier(),
+          child: const SecondPage(),
+        );
         break;
       default:
         throw UnimplementedError('no widget for $selectedIndex');
@@ -40,7 +44,7 @@ class _RootPageState extends State<RootPage> {
             SafeArea(
               child: NavigationRail(
                 extended: constraints.maxWidth >= 600,
-                destinations: [
+                destinations: const [
                   NavigationRailDestination(
                     icon: Icon(Icons.offline_bolt),
                     label: Text('First'),

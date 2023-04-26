@@ -1,5 +1,3 @@
-// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
-
 import 'package:flutter/material.dart';
 
 import 'first_page_inherited_notifier.dart';
@@ -24,7 +22,7 @@ class FirstPage extends StatelessWidget {
             output.toString(),
             style: Theme.of(context).textTheme.headlineLarge,
           ),
-          SizedBox(height: 30),
+          const SizedBox(height: 30),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
@@ -32,16 +30,14 @@ class FirstPage extends StatelessWidget {
                 onPressed: decrementCommand.canExecute()
                     ? decrementCommand.execute
                     : null,
-                child: Icon(Icons.exposure_minus_1),
+                child: const Icon(Icons.exposure_minus_1),
               ),
-              SizedBox(
-                width: 20,
-              ),
+              const SizedBox(width: 20),
               ElevatedButton(
                 onPressed: incrementCommand.canExecute()
                     ? incrementCommand.execute
                     : null,
-                child: Icon(Icons.plus_one),
+                child: const Icon(Icons.plus_one),
               ),
             ],
           ),
