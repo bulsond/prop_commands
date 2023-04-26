@@ -13,6 +13,8 @@ and the Flutter guide for
 
 # Property and Commands for ChangeNotifier
 
+![The work of the example](/screenshot/examplewip.gif)
+
 <!--
 ## Features
 
