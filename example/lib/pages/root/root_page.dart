@@ -6,6 +6,9 @@ import '../first/first_page_notifier.dart';
 import '../second/second_page.dart';
 import '../second/second_page_inherited_notifier.dart';
 import '../second/second_page_notifier.dart';
+import '../third/third_page.dart';
+import '../third/third_page_inherited_notifier.dart';
+import '../third/third_page_notifier.dart';
 
 class RootPage extends StatefulWidget {
   const RootPage({super.key});
@@ -33,6 +36,12 @@ class _RootPageState extends State<RootPage> {
           child: const SecondPage(),
         );
         break;
+      case 2:
+        page = ThirdPageInheritedNotifier(
+          notifier: ThirdPageNotifier(),
+          child: const ThirdPage(),
+        );
+        break;
       default:
         throw UnimplementedError('no widget for $selectedIndex');
     }
@@ -52,6 +61,10 @@ class _RootPageState extends State<RootPage> {
                   NavigationRailDestination(
                     icon: Icon(Icons.group_work),
                     label: Text('Second'),
+                  ),
+                  NavigationRailDestination(
+                    icon: Icon(Icons.check_circle),
+                    label: Text('Third'),
                   ),
                 ],
                 selectedIndex: selectedIndex,
