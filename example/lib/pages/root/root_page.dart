@@ -1,6 +1,10 @@
-// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
+// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables, sort_child_properties_last
 
 import 'package:flutter/material.dart';
+
+import '../first/first_page.dart';
+import '../first/first_page_inherited_notifier.dart';
+import '../first/first_page_notifier.dart';
 
 class RootPage extends StatefulWidget {
   const RootPage({super.key});
@@ -17,7 +21,10 @@ class _RootPageState extends State<RootPage> {
     Widget page;
     switch (selectedIndex) {
       case 0:
-        page = Placeholder();
+        page = FirstPageInheritedNotifier(
+          notifier: FirstPageNotifier(),
+          child: FirstPage(),
+        );
         break;
       case 1:
         page = Placeholder();
