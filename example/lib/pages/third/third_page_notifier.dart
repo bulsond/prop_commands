@@ -16,8 +16,9 @@ class ThirdPageNotifier extends ChangeNotifier {
 
   late final outputProperty = Property<String>(initialValue: '');
 
-  late final submitCommand = Command(
-    action: () {
+  late final submitCommand = AsyncCommand(
+    action: () async {
+      await Future.delayed(const Duration(milliseconds: 100));
       outputProperty.value = inputProperty.value;
       inputProperty.value = '';
       isEnabledProperty.value = false;

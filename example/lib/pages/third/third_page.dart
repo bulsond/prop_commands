@@ -47,8 +47,8 @@ class _ThirdPageState extends State<ThirdPage> {
           const SizedBox(height: 30),
           ElevatedButton(
             onPressed: submitCommand.canExecute()
-                ? (() {
-                    submitCommand();
+                ? (() async {
+                    await submitCommand.execute();
                     controller.clear();
                   })
                 : null,
