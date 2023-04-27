@@ -3,6 +3,10 @@ import 'package:flutter/material.dart';
 import '../first/first_page.dart';
 import '../first/first_page_inherited_notifier.dart';
 import '../first/first_page_notifier.dart';
+import '../fourth/data/person_db.dart';
+import '../fourth/fourth_page.dart';
+import '../fourth/fourth_page_inherited_notifier.dart';
+import '../fourth/fourth_page_notifier.dart';
 import '../second/second_page.dart';
 import '../second/second_page_inherited_notifier.dart';
 import '../second/second_page_notifier.dart';
@@ -19,6 +23,7 @@ class RootPage extends StatefulWidget {
 
 class _RootPageState extends State<RootPage> {
   var selectedIndex = 0;
+  final personDb = PersonDb();
 
   @override
   Widget build(BuildContext context) {
@@ -42,6 +47,12 @@ class _RootPageState extends State<RootPage> {
           child: const ThirdPage(),
         );
         break;
+      case 3:
+        page = FourthPageInheritedNotifier(
+          notifier: FourthPageNotifier(personDb: personDb),
+          child: const FourthPage(),
+        );
+        break;
       default:
         throw UnimplementedError('no widget for $selectedIndex');
     }
@@ -53,18 +64,54 @@ class _RootPageState extends State<RootPage> {
             SafeArea(
               child: NavigationRail(
                 extended: constraints.maxWidth >= 600,
-                destinations: const [
+                destinations: [
                   NavigationRailDestination(
-                    icon: Icon(Icons.offline_bolt),
-                    label: Text('First'),
+                    icon: Icon(
+                      Icons.offline_bolt,
+                      color: Theme.of(context).primaryColor,
+                    ),
+                    label: Text(
+                      '#1',
+                      style: TextStyle(
+                        color: Theme.of(context).primaryColor,
+                      ),
+                    ),
                   ),
                   NavigationRailDestination(
-                    icon: Icon(Icons.group_work),
-                    label: Text('Second'),
+                    icon: Icon(
+                      Icons.group_work,
+                      color: Theme.of(context).primaryColor,
+                    ),
+                    label: Text(
+                      '#2',
+                      style: TextStyle(
+                        color: Theme.of(context).primaryColor,
+                      ),
+                    ),
                   ),
                   NavigationRailDestination(
-                    icon: Icon(Icons.check_circle),
-                    label: Text('Third'),
+                    icon: Icon(
+                      Icons.check_circle,
+                      color: Theme.of(context).primaryColor,
+                    ),
+                    label: Text(
+                      '#3',
+                      style: TextStyle(
+                        color: Theme.of(context).primaryColor,
+                      ),
+                    ),
+                  ),
+                  NavigationRailDestination(
+                    icon: Icon(
+                      Icons.pending,
+                      color: Theme.of(context).primaryColor,
+                    ),
+                    label: Text(
+                      '#4',
+                      style: TextStyle(
+                        color: Theme.of(context).primaryColor,
+                      ),
+                    ),
                   ),
                 ],
                 selectedIndex: selectedIndex,
