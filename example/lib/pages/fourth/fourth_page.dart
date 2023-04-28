@@ -4,8 +4,30 @@ import 'fourth_page_inherited_notifier.dart';
 import 'widget/compose_widget.dart';
 import 'widget/people_listview_widget.dart';
 
-class FourthPage extends StatelessWidget {
+class FourthPage extends StatefulWidget {
   const FourthPage({super.key});
+
+  @override
+  State<FourthPage> createState() => _FourthPageState();
+}
+
+class _FourthPageState extends State<FourthPage> {
+  late final TextEditingController _firstNameController;
+  late final TextEditingController _lastNameController;
+
+  @override
+  void initState() {
+    super.initState();
+    _firstNameController = TextEditingController();
+    _lastNameController = TextEditingController();
+  }
+
+  @override
+  void dispose() {
+    _firstNameController.dispose();
+    _lastNameController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -25,10 +47,16 @@ class FourthPage extends StatelessWidget {
                 return Text('${snapshot.error}');
               } else if (snapshot.hasData) {
                 return Column(
-                  children: const [
-                    ComposeWidget(),
-                    SizedBox(height: 20),
-                    PeopleListViewWidget(),
+                  children: [
+                    ComposeWidget(
+                      firstNameController: _firstNameController,
+                      lastNameController: _lastNameController,
+                    ),
+                    const SizedBox(height: 20),
+                    PeopleListViewWidget(
+                      firstNameController: _firstNameController,
+                      lastNameController: _lastNameController,
+                    ),
                   ],
                 );
               } else {

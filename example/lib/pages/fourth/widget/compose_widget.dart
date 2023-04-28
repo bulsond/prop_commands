@@ -2,30 +2,15 @@ import 'package:flutter/material.dart';
 
 import '../fourth_page_inherited_notifier.dart';
 
-class ComposeWidget extends StatefulWidget {
-  const ComposeWidget({super.key});
+class ComposeWidget extends StatelessWidget {
+  const ComposeWidget({
+    required this.firstNameController,
+    required this.lastNameController,
+    super.key,
+  });
 
-  @override
-  State<ComposeWidget> createState() => _ComposeWidgetState();
-}
-
-class _ComposeWidgetState extends State<ComposeWidget> {
-  late final TextEditingController _firstNameController;
-  late final TextEditingController _lastNameController;
-
-  @override
-  void initState() {
-    _firstNameController = TextEditingController();
-    _lastNameController = TextEditingController();
-    super.initState();
-  }
-
-  @override
-  void dispose() {
-    _firstNameController.dispose();
-    _lastNameController.dispose();
-    super.dispose();
-  }
+  final TextEditingController firstNameController;
+  final TextEditingController lastNameController;
 
   @override
   Widget build(BuildContext context) {
@@ -37,11 +22,11 @@ class _ComposeWidgetState extends State<ComposeWidget> {
       child: Column(
         children: [
           TextField(
-            controller: _firstNameController,
+            controller: firstNameController,
             decoration: const InputDecoration(hintText: 'Enter first name'),
           ),
           TextField(
-            controller: _lastNameController,
+            controller: lastNameController,
             decoration: const InputDecoration(hintText: 'Enter last name'),
           ),
           const SizedBox(
@@ -50,12 +35,12 @@ class _ComposeWidgetState extends State<ComposeWidget> {
           TextButton(
               onPressed: () async {
                 final names = <String>[
-                  _firstNameController.text,
-                  _lastNameController.text,
+                  firstNameController.text,
+                  lastNameController.text,
                 ];
                 await command(names);
-                _firstNameController.text = '';
-                _lastNameController.text = '';
+                firstNameController.clear();
+                lastNameController.clear();
               },
               child: Text(
                 'Add to list',
