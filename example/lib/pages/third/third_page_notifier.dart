@@ -19,7 +19,7 @@ class ThirdPageNotifier extends ChangeNotifier {
     },
   );
 
-  late final outputProperty = Property<String>(initialValue: '');
+  final outputProperty = Property<String>(initialValue: '');
 
   late final submitCommand = AsyncCommand(
     action: () async {
