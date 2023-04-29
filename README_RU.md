@@ -133,7 +133,7 @@ late final changeCommand = ParameterizedCommand<int>(
 );
 ```
 
-При выполнении метода команды происходит вызов  `notifyListeners()`.
+При выполнении метода команды происходит вызов `notifyListeners()`.
 
 В классе `SecondPage` в методе `build(BuildContext context)` получаем ссылку на команду
 
@@ -168,6 +168,137 @@ ElevatedButton(
 
 ![Работа примера](/screenshot/example_3.gif)
 
-В классе въюмодели `SecondPageNotifier extends ChangeNotifier` определены свойство и команда.
+В классе въюмодели `ThirdPageNotifier extends ChangeNotifier` определены три свойства и команда.
 
-### Свойство
+### Свойства
+
+Для `CheckboxListTile` задано свойство с вызовом `notifyListeners()`.
+
+```dart
+late final isEnabledProperty = Property<bool>(
+    initialValue: false,
+    notifyListeners: notifyListeners,
+);
+```.
+
+Далее в `_ThirdPageState` получаем отслеживаемую ссылку на это свойство
+
+```dart
+final isEnabledProperty =
+    ThirdPageInheritedNotifier.watchNotifier(context).isEnabledProperty;
+```
+и используем таким образом
+
+```dart
+CheckboxListTile(
+    title: const Text('enable the input line'),
+    controlAffinity: ListTileControlAffinity.platform,
+    contentPadding: const EdgeInsets.all(50),
+    value: isEnabledProperty.value,
+    onChanged: (value) {
+        isEnabledProperty.value = value!;
+    },
+),
+```.
+
+Для `TextField` задано свойство с вызовом `notifyListeners()` и правилами верификации.
+
+```dart
+late final inputProperty = Property<String>(
+    initialValue: '',
+    notifyListeners: notifyListeners,
+    verificationRules: <String, bool Function(String)>{
+      'The value cannot be an empty string': (value) => value.isEmpty,
+      'The length of the string cannot be less than 3 characters': (value) =>
+          value.length < 3,
+    },
+);
+```
+Для правила верификации в качестве ключа указывается текстовое
+сообщение для пользователя, а в качестве значения метод возвращающий `true`.
+
+В `InputTextWidget` получем ссылки на свойства
+
+```dart
+final isEnabledProperty =
+        ThirdPageInheritedNotifier.watchNotifier(context).isEnabledProperty;
+final inputProperty =
+    ThirdPageInheritedNotifier.readNotifier(context).inputProperty;
+```
+и используем таким образом
+
+```dart
+TextField(
+    decoration: InputDecoration(
+        border: const OutlineInputBorder(),
+        labelText: 'Enter the Value',
+        errorText: inputProperty.hasErrors ? inputProperty.errors[0] : null,
+    ),
+    enabled: isEnabledProperty.value,
+    controller: controller,
+    onChanged: (text) {
+        inputProperty.value = text;
+    },
+),
+```
+В этой строке `errorText: inputProperty.hasErrors ? inputProperty.errors[0] : null,` определена
+логика отображения сообщений пользователю об ошибке при вводе данных.
+
+Доступность `TextField` для ввода привязана к значению `CheckboxListTile` через
+свойство `isEnabledProperty` в этой строке `enabled: isEnabledProperty.value,`.
+
+Свойство `inputProperty` обновляет свое значение в методе определенном для `onChanged`.
+
+Для вывода результата используется простое свойство
+`final outputProperty = Property<String>(initialValue: '');`.
+
+
+### Команда
+
+В примере используется одна асинхронная команда для кнопки
+
+```dart
+late final submitCommand = AsyncCommand(
+    action: () async {
+      await Future.delayed(const Duration(milliseconds: 100));
+      outputProperty.value = inputProperty.value;
+      inputProperty.value = '';
+      isEnabledProperty.value = false;
+    },
+    canAction: () => inputProperty.hasErrors == false,
+    notifyListeners: notifyListeners,
+);
+```
+
+Доступность кнопки зависит от наличия ошибок при вводе с помощью
+параметра `canAction: () => inputProperty.hasErrors == false,`.
+
+При выполнении метода команды происходит вызов `notifyListeners()`.
+
+В `_ThirdPageState` получаем ссылку на команду
+
+```dart
+final submitCommand =
+    ThirdPageInheritedNotifier.readNotifier(context).submitCommand;
+```
+и используем команду для кнопки таким образом.
+
+```dart
+ElevatedButton(
+    onPressed: submitCommand.canExecute()
+        ? (() async {
+            await submitCommand.execute();
+            controller.clear();
+        })
+        : null,
+    child: const Icon(Icons.done),
+),
+```
+
+## Пример №4
+
+![Работа примера](/screenshot/example_4.gif)
+
+В классе въюмодели ` extends ChangeNotifier` определены три свойства и команда.
+
+### Свойства
