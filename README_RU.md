@@ -19,7 +19,7 @@ late final outputProperty = Property<int>(
     notifyListeners: notifyListeners,
 );
 ```
-задано начальное значение свойства и вызов метода `notifyListeners()` в случае
+Задано начальное значение свойства и вызов метода `notifyListeners()` в случае
 изменения значения данного свойства.
 
 В методе `build(BuildContext context)` класса `FirstPage extends StatelessWidget`
@@ -53,7 +53,7 @@ late final incrementCommand = Command(
     action: () => outputProperty.value -= 1,
     canAction: () => outputProperty.value > 0,
   );
-```.
+```
 В качестве аргументов для параметра `action` передаются методы изменяющие значение свойства счетчика.
 В качестве аргументов для параметра `canAction`, который ограничивает доступность команды на выполнение,
 передаются методы ограничивающие диапозон значений счетчика.
@@ -65,7 +65,7 @@ final incrementCommand =
     FirstPageInheritedNotifier.readNotifier(context).incrementCommand;
 final decrementCommand =
     FirstPageInheritedNotifier.readNotifier(context).decrementCommand;
-```.
+```
 
 Использование команд для работы кнопок
 
@@ -199,7 +199,7 @@ CheckboxListTile(
         isEnabledProperty.value = value!;
     },
 ),
-```.
+```
 
 Для `TextField` задано свойство с вызовом `notifyListeners()` и правилами верификации.
 
@@ -299,6 +299,82 @@ ElevatedButton(
 
 ![Работа примера](/screenshot/example_4.gif)
 
-В классе въюмодели ` extends ChangeNotifier` определены три свойства и команда.
+В классе въюмодели `FourthPageNotifier extends ChangeNotifier` определены одно свойство
+и три команды.
 
-### Свойства
+### Свойство
+
+Для отображения списка создано свойство.
+
+```dart
+final peopleProperty = Property<List<Person>>(
+    initialValue: <Person>[],
+);
+```
+
+В `PeopleListViewWidget` получаем отслеживаемую ссылку на свойство.
+
+```dart
+final people =
+    FourthPageInheritedNotifier.watchNotifier(context).peopleProperty.value;
+```
+
+Отображение коллекции людей с помощью `ListView.builder()` и `ListTile`.
+
+```dart
+ListView.builder(
+    itemCount: people.length,
+    itemBuilder: (context, index) {
+        final person = people[index];
+        return ListTile(
+            onTap: () async {...},
+            title: Text(person.fullName),
+            subtitle: Text('ID: ${person.id}'),
+            trailing: TextButton(...),
+        );
+    },
+),
+```
+
+### Команды
+
+Для реализации CRUD операций над коллецией людей созданы три параметризованных асинхронных команды:
+`addCommand`, `removeCommand`, `updateCommand`.
+
+Пример на `addCommand`.
+
+```dart
+late final addCommand = ParameterizedAsyncCommand<List<String>>(
+    action: (value) async {
+      await _db.create(names: value);
+      peopleProperty.value = await _db.getPeople();
+    },
+    notifyListeners: notifyListeners,
+);
+```
+В `ComposeWidget` в методе `Widget build(BuildContext context)` получаем ссылку
+на команду.
+
+```dart
+final command =
+    FourthPageInheritedNotifier.readNotifier(context).addCommand;
+```
+
+Используем команду таким образом
+
+```dart
+TextButton(
+    onPressed: () async {
+        final names = <String>[
+            firstNameController.text,
+            lastNameController.text,
+        ];
+        await command(names);
+        firstNameController.clear();
+        lastNameController.clear();
+    },
+    child: Text(
+    'Add to list',
+    style: Theme.of(context).textTheme.titleMedium,
+))
+```
