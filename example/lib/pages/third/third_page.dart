@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'third_page_inherited_notifier.dart';
+import 'widget/input_text_widget.dart';
 
 class ThirdPage extends StatefulWidget {
   const ThirdPage({super.key});
@@ -57,34 +58,6 @@ class _ThirdPageState extends State<ThirdPage> {
           const SizedBox(height: 50),
           Text(outputProperty.value),
         ],
-      ),
-    );
-  }
-}
-
-class InputTextWidget extends StatelessWidget {
-  const InputTextWidget({required this.controller, super.key});
-
-  final TextEditingController controller;
-
-  @override
-  Widget build(BuildContext context) {
-    final isEnabledProperty =
-        ThirdPageInheritedNotifier.watchNotifier(context).isEnabledProperty;
-    final inputProperty =
-        ThirdPageInheritedNotifier.readNotifier(context).inputProperty;
-
-    return SizedBox(
-      width: 300,
-      child: TextField(
-        decoration: const InputDecoration(
-          border: OutlineInputBorder(),
-        ),
-        enabled: isEnabledProperty.value,
-        controller: controller,
-        onChanged: (text) {
-          inputProperty.value = text;
-        },
       ),
     );
   }

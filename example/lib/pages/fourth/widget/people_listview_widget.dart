@@ -4,16 +4,23 @@ import '../fourth_page_inherited_notifier.dart';
 import '../model/person.dart';
 
 class PeopleListViewWidget extends StatelessWidget {
-  const PeopleListViewWidget({super.key});
+  const PeopleListViewWidget({
+    required this.firstNameController,
+    required this.lastNameController,
+    super.key,
+  });
+
+  final TextEditingController firstNameController;
+  final TextEditingController lastNameController;
 
   @override
   Widget build(BuildContext context) {
     final people =
         FourthPageInheritedNotifier.watchNotifier(context).peopleProperty.value;
     final removeCommand =
-        FourthPageInheritedNotifier.watchNotifier(context).removeCommand;
+        FourthPageInheritedNotifier.readNotifier(context).removeCommand;
     final updateCommand =
-        FourthPageInheritedNotifier.watchNotifier(context).updateCommand;
+        FourthPageInheritedNotifier.readNotifier(context).updateCommand;
 
     return Expanded(
       child: ListView.builder(
@@ -22,7 +29,14 @@ class PeopleListViewWidget extends StatelessWidget {
           final person = people[index];
           return ListTile(
             onTap: () async {
-              final editedPerson = await showUpdateDialog(context, person);
+              firstNameController.text = person.firstName;
+              lastNameController.text = person.lastName;
+              final editedPerson = await showUpdateDialog(
+                context,
+                firstNameController,
+                lastNameController,
+                person.id,
+              );
               if (editedPerson == null) return;
               await updateCommand(editedPerson);
             },
@@ -44,6 +58,58 @@ class PeopleListViewWidget extends StatelessWidget {
       ),
     );
   }
+}
+
+Future<Person?> showUpdateDialog(
+  BuildContext context,
+  TextEditingController firstNameController,
+  TextEditingController lastNameController,
+  int personId,
+) {
+  return showDialog(
+    context: context,
+    builder: (context) {
+      return AlertDialog(
+        content: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            const Text('Enter your updated values here:'),
+            TextField(
+              controller: firstNameController,
+            ),
+            TextField(
+              controller: lastNameController,
+            ),
+          ],
+        ),
+        actions: [
+          TextButton(
+              onPressed: () {
+                Navigator.of(context).pop(null);
+              },
+              child: const Text('Cancel')),
+          TextButton(
+              onPressed: () {
+                final editedPerson = Person(
+                  id: personId,
+                  firstName: firstNameController.text,
+                  lastName: lastNameController.text,
+                );
+                firstNameController.clear();
+                lastNameController.clear();
+                Navigator.of(context).pop(editedPerson);
+              },
+              child: const Text('Save')),
+        ],
+      );
+    },
+  ).then((value) {
+    if (value is Person) {
+      return value;
+    } else {
+      return null;
+    }
+  });
 }
 
 Future<bool> showDeleteDialog(BuildContext context) {
@@ -72,56 +138,6 @@ Future<bool> showDeleteDialog(BuildContext context) {
       return value;
     } else {
       return false;
-    }
-  });
-}
-
-final _firstNameController = TextEditingController();
-final _lastNameController = TextEditingController();
-
-Future<Person?> showUpdateDialog(BuildContext context, Person person) {
-  _firstNameController.text = person.firstName;
-  _lastNameController.text = person.lastName;
-  return showDialog(
-    context: context,
-    builder: (context) {
-      return AlertDialog(
-        content: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            const Text('Enter your updated values here:'),
-            TextField(
-              controller: _firstNameController,
-            ),
-            TextField(
-              controller: _lastNameController,
-            ),
-          ],
-        ),
-        actions: [
-          TextButton(
-              onPressed: () {
-                Navigator.of(context).pop(null);
-              },
-              child: const Text('Cancel')),
-          TextButton(
-              onPressed: () {
-                final editedPerson = Person(
-                  id: person.id,
-                  firstName: _firstNameController.text,
-                  lastName: _lastNameController.text,
-                );
-                Navigator.of(context).pop(editedPerson);
-              },
-              child: const Text('Save')),
-        ],
-      );
-    },
-  ).then((value) {
-    if (value is Person) {
-      return value;
-    } else {
-      return null;
     }
   });
 }

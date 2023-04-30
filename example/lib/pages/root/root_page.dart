@@ -61,66 +61,64 @@ class _RootPageState extends State<RootPage> {
       return Scaffold(
         body: Row(
           children: [
-            SafeArea(
-              child: NavigationRail(
-                extended: constraints.maxWidth >= 600,
-                destinations: [
-                  NavigationRailDestination(
-                    icon: Icon(
-                      Icons.offline_bolt,
+            NavigationRail(
+              extended: constraints.maxWidth >= 600,
+              destinations: [
+                NavigationRailDestination(
+                  icon: Icon(
+                    Icons.offline_bolt,
+                    color: Theme.of(context).primaryColor,
+                  ),
+                  label: Text(
+                    '#1',
+                    style: TextStyle(
                       color: Theme.of(context).primaryColor,
                     ),
-                    label: Text(
-                      '#1',
-                      style: TextStyle(
-                        color: Theme.of(context).primaryColor,
-                      ),
-                    ),
                   ),
-                  NavigationRailDestination(
-                    icon: Icon(
-                      Icons.group_work,
+                ),
+                NavigationRailDestination(
+                  icon: Icon(
+                    Icons.group_work,
+                    color: Theme.of(context).primaryColor,
+                  ),
+                  label: Text(
+                    '#2',
+                    style: TextStyle(
                       color: Theme.of(context).primaryColor,
                     ),
-                    label: Text(
-                      '#2',
-                      style: TextStyle(
-                        color: Theme.of(context).primaryColor,
-                      ),
-                    ),
                   ),
-                  NavigationRailDestination(
-                    icon: Icon(
-                      Icons.check_circle,
+                ),
+                NavigationRailDestination(
+                  icon: Icon(
+                    Icons.check_circle,
+                    color: Theme.of(context).primaryColor,
+                  ),
+                  label: Text(
+                    '#3',
+                    style: TextStyle(
                       color: Theme.of(context).primaryColor,
                     ),
-                    label: Text(
-                      '#3',
-                      style: TextStyle(
-                        color: Theme.of(context).primaryColor,
-                      ),
-                    ),
                   ),
-                  NavigationRailDestination(
-                    icon: Icon(
-                      Icons.pending,
+                ),
+                NavigationRailDestination(
+                  icon: Icon(
+                    Icons.pending,
+                    color: Theme.of(context).primaryColor,
+                  ),
+                  label: Text(
+                    '#4',
+                    style: TextStyle(
                       color: Theme.of(context).primaryColor,
                     ),
-                    label: Text(
-                      '#4',
-                      style: TextStyle(
-                        color: Theme.of(context).primaryColor,
-                      ),
-                    ),
                   ),
-                ],
-                selectedIndex: selectedIndex,
-                onDestinationSelected: (value) {
-                  setState(() {
-                    selectedIndex = value;
-                  });
-                },
-              ),
+                ),
+              ],
+              selectedIndex: selectedIndex,
+              onDestinationSelected: (value) {
+                setState(() {
+                  selectedIndex = value;
+                });
+              },
             ),
             Expanded(
               child: Container(

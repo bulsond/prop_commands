@@ -12,9 +12,14 @@ class ThirdPageNotifier extends ChangeNotifier {
   late final inputProperty = Property<String>(
     initialValue: '',
     notifyListeners: notifyListeners,
+    verificationRules: <String, bool Function(String)>{
+      'The value cannot be an empty string': (value) => value.isEmpty,
+      'The length of the string cannot be less than 3 characters': (value) =>
+          value.length < 3,
+    },
   );
 
-  late final outputProperty = Property<String>(initialValue: '');
+  final outputProperty = Property<String>(initialValue: '');
 
   late final submitCommand = AsyncCommand(
     action: () async {
@@ -23,7 +28,7 @@ class ThirdPageNotifier extends ChangeNotifier {
       inputProperty.value = '';
       isEnabledProperty.value = false;
     },
-    canAction: () => inputProperty.value.length > 3,
+    canAction: () => inputProperty.hasErrors == false,
     notifyListeners: notifyListeners,
   );
 }

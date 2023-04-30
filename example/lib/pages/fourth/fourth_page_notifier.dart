@@ -15,7 +15,7 @@ class FourthPageNotifier extends ChangeNotifier {
     return true;
   }
 
-  late final peopleProperty = Property<List<Person>>(
+  final peopleProperty = Property<List<Person>>(
     initialValue: <Person>[],
   );
 
