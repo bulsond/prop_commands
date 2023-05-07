@@ -14,12 +14,20 @@ class FourthPage extends StatefulWidget {
 class _FourthPageState extends State<FourthPage> {
   late final TextEditingController _firstNameController;
   late final TextEditingController _lastNameController;
+  late final Future<bool> loadData;
 
   @override
   void initState() {
     super.initState();
     _firstNameController = TextEditingController();
     _lastNameController = TextEditingController();
+  }
+
+  @override
+  void didChangeDependencies() {
+    var load = FourthPageInheritedNotifier.readNotifier(context).loadPeople;
+    loadData = load();
+    super.didChangeDependencies();
   }
 
   @override
@@ -31,12 +39,9 @@ class _FourthPageState extends State<FourthPage> {
 
   @override
   Widget build(BuildContext context) {
-    final loadData =
-        FourthPageInheritedNotifier.readNotifier(context).loadPeople;
-
     return Center(
       child: FutureBuilder<bool>(
-        future: loadData(),
+        future: loadData,
         builder: (context, snapshot) {
           switch (snapshot.connectionState) {
             case ConnectionState.waiting:
