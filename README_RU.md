@@ -1,5 +1,7 @@
 # Property and Commands for ChangeNotifier
 
+[ссылка на пакет pub.dev](https://pub.dev/packages/prop_commands)
+
 Пакет содержит следующие декарирующие классы: `Property<T>`, `Command`, `ParameterizedCommand<T>`,
 `AsyncCommand`, `ParameterizedAsyncCommand<T>`. Данные классы могут быть полезны при создании въюмоделей на основе классов расширяющих ChangeNotifier.
 
