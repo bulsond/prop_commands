@@ -1,5 +1,7 @@
 # Property and Commands for ChangeNotifier
 
+[pub.dev](https://pub.dev/packages/prop_commands)
+
 The package contains the following decorating classes: `Property<T>`, `Command`, `ParameterizedCommand<T>`, `AsyncCommand`, `ParameterizedAsyncCommand<T>`. These classes can be useful when creating viewmodels based on classes extending ChangeNotifier.
 
 ## Example #1
